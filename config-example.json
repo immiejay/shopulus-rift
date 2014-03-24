@@ -1,0 +1,9 @@
+{
+    "stores": {
+        "amazon": {
+            "id": "",
+            "secret": "",
+            "associateTag": ""
+        }
+    }
+}
