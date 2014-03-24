@@ -1,0 +1,1 @@
+exports.Controller = require('./highstreet/Controller').Controller;

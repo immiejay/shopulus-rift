@@ -1,26 +1,7 @@
-var fs           = require('fs'),
-    path         = require('path'),
-    express      = require('express'),
-    AmazonHelper = require('apac').OperationHelper,
+var express      = require('express'),
     Datastore    = require('nedb');
 
 var app, amazon, config, controllers;
-
-// Read the config
-fs.readFile(path.join(__dirname + '/config.json'), function(err, data) {
-    if (err) {
-        console.log('Could not read config file: ' + err);
-        return;
-    }
-
-    config = JSON.parse(data);
-
-    amazon = new AmazonHelper({
-        awsId: config.amazon.id,
-        awsSecret: config.amazon.secret,
-        assocId: config.amazon.associateTag
-    });
-});
 
 // setup the app
 app = express();
@@ -36,24 +17,27 @@ app.use(express.urlencoded());
 app.engine('jade', require('jade').__express)
 
 controllers = {
-    highstreet: require('hightstreet/controller'),
+    highstreet: new (require('highstreet').Controller),
     stores: {
-        amazon: require('store/amazon/controller'),
-        tesco: require('store/tesco/controller')
+        amazon: new (require('store/amazon').Controller),
+        tesco: new (require('store/tesco').Controller)
     }
 };
 
 // index
-app.get('/', function() {
+app.get('/', function(req, res) {
     res.render('index.jade');
 });
 
 // stores
-app.get('highstreet', function(req, res) {
+app.get('/highstreet', function(req, res) {
     controllers.highstreet.index(req, res);
 });
 
 // amazon
-app.get('store/amazon', function() {
+app.get('/store/amazon', function(req, res) {
     controllers.stores.amazon.index(req, res);
 });
+
+app.listen(3000);
+console.log('listening on port 3000');
