@@ -39,5 +39,10 @@ app.get('/store/amazon', function(req, res) {
     controllers.stores.amazon.index(req, res);
 });
 
+// threejs tests
+app.get('/three/tests/cube', function(req, res) {
+    res.render('three/tests/cube.jade');
+});
+
 app.listen(3000);
 console.log('listening on port 3000');

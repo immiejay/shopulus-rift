@@ -1,0 +1,34 @@
+doctype html
+html
+    head
+        title Shopulus Rift
+        script(src="https://rawgithub.com/mrdoob/three.js/master/build/three.js")
+
+    body
+        script.
+            var camera, scene, renderer;
+            var controls, oculusEffect, oculusControls;
+
+            function init() {
+                // Set up scene
+                renderer = new THREE.WebGLRenderer();
+                renderer.setSize( window.innerWidth, window.innerHeight );
+                camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 5000 );
+                scene  = new THREE.Scene();
+
+                // Add oculus warp effect
+                oculusEffect = new THREE.OculusRiftEffect( renderer, { worldScale: 1 } );
+                oculusEffect.setSize( window.innerWidth, window.innerHeight );
+
+                // Add first person controls
+                controls = new THREE.FirstPersonControls( camera );
+                controls.movementSpeed = 4000;
+                controls.lookSpeed     = 3.0;
+                controls.lookVertical  = true;
+
+                // Add oculus controls
+                oculusControls = new THREE.OculusControls( camera );
+
+                // Add scene to the document
+                document.body.appendChild( renderer.domElement );
+            }
